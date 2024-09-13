@@ -34,7 +34,7 @@ bool isHexadecimal(const std::string& input) {
             return false;
         }
     }
-
+    std::cout<<"SSS";
     return true;
 }
 
