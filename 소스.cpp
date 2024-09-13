@@ -1,23 +1,6 @@
-//#include <iostream>
-//#include <string>
-//#include <fstream>
-//
-//int main() {
-//	std::ifstream readFile;//읽기전용
-//	readFile.open("result.txt"); //파일 열기
-//	std::string line;
-//	if(readFile.is_open()) {
-//		while(!readFile.eof()){
-//			getline(readFile, line);
-//			std::cout << line << std::endl;
-//		}
-//	}
-//	readFile.close();
-//}
-
 #include <iostream>
 #include <cctype>
-
+#include <string>
 bool isHexadecimal(const std::string& input) {
 	// 입력 문자열이 빈 문자열인지 검사
 	if (input.empty()) return false;
@@ -45,7 +28,7 @@ bool isLBA(const int& input) {
 }
 
 int main() {
-	std::string s, h;
+	std::string s, s_LBA, h;
 	int LBA;
 	while (1) {
 		s = "";
@@ -54,47 +37,40 @@ int main() {
 		std::cin >> s;
 
 		if (s == "write") {
-			//if (!(std::cin >> LBA)) {
-			//	std::cout << "LBA값을 입력하지 않았습니다. 다시 입력해주세요." << std::endl;
-			//	std::cin.clear(); // 입력 상태를 초기화
-			//	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 입력 버퍼 비우기
-			//	continue;
-			//}
-
-			//// 16진수 값 입력 받기
-			//if (!(std::cin >> h)) {
-			//	std::cout << "16진수 값을 입력하지 않았습니다. 다시 입력해주세요." << std::endl;
-			//	std::cin.clear();
-			//	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			//	continue;
-			//}
-			std::cin >> LBA;
-			std::cin >> h;
+			std::cin >> s_LBA;
+			try {
+				LBA = std::stoi(s_LBA);
+			}
+			catch (std::invalid_argument&) {
+				std::cout << "LBA 형식이 잘못됐습니다." << std::endl;
+				continue;
+			}
 			if (isLBA(LBA) == 0) {
 				std::cout << "LBA범위 오류" << std::endl;
 				continue;
 			}
 
+			std::cin >> h;
 			if (isHexadecimal(h) == 0) {
 				std::cout << "16진수 입력 값 오류" << std::endl;
 				continue;
 			}
 			// TO-DO exec이용해서 실행파일 사용
-		}2
+		}
 
-			if (s == "fullwrite") {
-				std::cin >> h;
-				if (isHexadecimal(h) == 0) {
-					std::cout << "16진수 입력 값 오류" << std::endl;
-					continue;
-				}
-
-				/*
-				for (int i = 0; i < 100; i++) {
-					// TO-DO exec이용해서 실행파일 사용
-				}
-				*/
+		if (s == "fullwrite") {
+			std::cin >> h;
+			if (isHexadecimal(h) == 0) {
+				std::cout << "16진수 입력 값 오류" << std::endl;
+				continue;
 			}
+
+			/*
+			for (int i = 0; i < 100; i++) {
+				// TO-DO exec이용해서 실행파일 사용
+			}
+			*/
+		}
 
 		if (s == "help") {
 			std::cout << std::flush; // 출력버퍼 비우기
