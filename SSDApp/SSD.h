@@ -5,9 +5,9 @@
 class SSD : public Storage
 {
 private:
-	std::string buf[MEM_SIZE];
-
+	std::ifstream nand_file;
+	std::ifstream result_file;
 public:
-	bool Write(uint32_t address, std::string value);
+	void Write(uint32_t address, std::string value);
 	std::string Read(uint32_t address);
 };
