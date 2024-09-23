@@ -44,6 +44,58 @@ bool isLBA(const int& input) {
     else return false;
 }
 
+bool Testapp1(SSD& a_ssd)
+{
+	for (int i = 0; i < 100; i++) {
+		// TO-DO exec이용해서 실행파일 사용
+		a_ssd.Write(i, "0xABCDFFFF");
+	}
+
+	for (uint32_t i = 0; i <= 99; i++) {
+		if (a_ssd.Read(i) != "0xABCDFFFF")
+		{
+			return false;
+		}
+	}
+
+	return true;
+
+}
+bool Testapp2(SSD& a_ssd)
+{
+	for (int cnt = 0; cnt < 30; cnt++)
+	{
+		for (int i = 0; i <= 5; i++)
+		{
+			a_ssd.Write(i, "0xAAAABBBB");
+		}
+	}
+
+	for (int i = 0; i <= 5; i++)
+	{
+		if (a_ssd.Read(i) != "0xAAAABBBB")
+		{
+			return false;
+		}
+	}
+
+	for (int i = 0; i <= 5; i++)
+	{
+		a_ssd.Write(i, "0x12345678");
+	}
+
+	for (int i = 0; i <= 5; i++)
+	{
+		if (a_ssd.Read(i) != "0x12345678")
+		{
+			std::cout << "testapp2 FAIL" << '\n';
+			return false;
+		}
+	}
+
+	return true;
+
+}
 int main() {
 	std::string s, s_LBA, h;
 	int LBA;
@@ -80,7 +132,7 @@ int main() {
 			a_ssd.Write(LBA, h);
 		}
 
-		if (s == "fullwrite") {
+		else if (s == "fullwrite") {
 			std::cout << "저장할 16진수 값을 입력하세요: ";
 			std::cin >> h;
 			if (isHexadecimal(h) == 0) {
@@ -96,7 +148,7 @@ int main() {
 			
 		}
 
-		if (s == "read") {
+		else if (s == "read") {
 			uint32_t address;
 
 			std::cout << "출력할 LBA 값을 입력하세요: ";
@@ -118,11 +170,21 @@ int main() {
 
 		}
 
-		if (s == "fullread") {
+		else if (s == "fullread") {
 			a_ssd.fullRead();
 		}
 
-		if (s == "help") {
+		else if (s == "testapp1")
+		{
+			if(Testapp1(a_ssd)) std::cout << "testapp1 Succsess" << '\n';
+			else std::cout << "testapp1 FAIL" << '\n';
+		}
+		else if (s == "testapp2")
+		{
+			if (Testapp2(a_ssd)) std::cout << "testapp2 Succsess" << '\n';
+			else std::cout << "testapp2 FAIL" << '\n';
+		}
+		else if (s == "help") {
 			std::cout << std::flush; // 출력버퍼 비우기
 			std::cout << "====명령어 사용 방법======" << std::endl;
 			std::cout << "write: LBA에 입력\n ex) write LBA번호 입력값" << std::endl;
@@ -133,7 +195,7 @@ int main() {
 			std::cout << "fullread: LBA 0번부터 99번까지 출력\nex) fullwrite" << std::endl;
 		}
 
-		if (s == "exit") break;
+		else if (s == "exit") break;
 	}
 
 	return 0;
