@@ -115,34 +115,15 @@ std::string  SSD::Read(uint32_t address)
 }
 
 void SSD::fullRead() {
-	std::string fline;
+	std::vector<std::string> fline;
 
-	result_file.open("result.txt");
-	if (!result_file) {
-		std::cout << "file error!" << std::endl;
-		return;
+	for (uint32_t i = 0; i <= 99; i++) {
+		Read(i);
+		fline.push_back(Read(i));
 	}
 
-	result_file.clear();
-	result_file.seekg(0, std::ios::beg);
-
-	result_file.seekg(0, std::ios::end);
-	std::streampos fSize = result_file.tellg();
-
-	if (fSize <= 0) {
-		std::cout << "Fill is empty or File Size Error" << std::endl;
-		return;
-	}
-
-	fline.clear();
-	fline.resize(fSize);
-	result_file.seekg(0, std::ios::beg);
-
-	result_file.read(&fline[0], fSize);
-	std::cout << fline << std::endl;
-
-	if (result_file.is_open()) {
-		result_file.close();
+	for (const auto& entry : fline) {
+		std::cout << entry << std::endl;
 	}
 }
 
