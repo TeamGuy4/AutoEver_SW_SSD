@@ -1,6 +1,6 @@
 #include "SSD.h"
 
-void SSD::Write(uint32_t address, std::string value)
+void SSD::Write_LiiNi(uint32_t address, std::string value)
 {
 	std::string str, tmp_address, tmp_value;
 	bool found_flag = false;
@@ -42,7 +42,7 @@ void SSD::Write(uint32_t address, std::string value)
 }
 
 
-std::string  SSD::Read(uint32_t address)
+std::string  SSD::Read_LiiNi(uint32_t address)
 {
 	bool find_nand_flag = false;
 	bool found_result_flag = false;

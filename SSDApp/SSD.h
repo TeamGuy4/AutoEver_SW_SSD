@@ -8,6 +8,6 @@ private:
 	std::ifstream nand_file;
 	std::ifstream result_file;
 public:
-	void Write(uint32_t address, std::string value);
-	std::string Read(uint32_t address);
+	void Write_LiiNi(uint32_t address, std::string value);
+	std::string Read_LiiNi(uint32_t address);
 };
