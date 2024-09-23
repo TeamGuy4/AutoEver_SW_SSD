@@ -56,6 +56,7 @@ int main() {
 		std::cin >> s;
 
 		if (s == "write") {
+			std::cout << "값을 저장할 LBA를 입력하세요: ";
 			std::cin >> s_LBA;
 			try {
 				LBA = std::stoi(s_LBA);
@@ -69,6 +70,7 @@ int main() {
 				continue;
 			}
 
+			std::cout << "16진수 값을 입력하세요: ";
 			std::cin >> h;
 			if (isHexadecimal(h) == 0) {
 				std::cout << "16진수 입력 값 오류" << std::endl;
@@ -79,6 +81,7 @@ int main() {
 		}
 
 		if (s == "fullwrite") {
+			std::cout << "저장할 16진수 값을 입력하세요: ";
 			std::cin >> h;
 			if (isHexadecimal(h) == 0) {
 				std::cout << "16진수 입력 값 오류" << std::endl;
@@ -96,7 +99,7 @@ int main() {
 		if (s == "read") {
 			uint32_t address;
 
-			std::cout << "출력할 LBA 값 입력: ";
+			std::cout << "출력할 LBA 값을 입력하세요: ";
 			std::cin >> address;
 			try {
 				LBA = address;

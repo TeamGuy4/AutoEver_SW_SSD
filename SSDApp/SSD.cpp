@@ -77,6 +77,7 @@ std::string  SSD::Read(uint32_t address)
 	// result.txt에 쓰고자 하는 데이터(nand.txt 에서 가져온 데이터) 가 이미 존재한다면 --> result.txt에 기존에 있던 데이터는 삭제하고 nand.txt에서 읽은 데이터로 교체 
 	// 만약에 result.txt에 없다면 그냥 쓰면됨
 	std::string  tmp_address, tmp_value;
+
 	while (std::getline(result_file, str))		//한줄씩 읽기
 	{
 		auto pos = str.find(" ");
@@ -96,7 +97,7 @@ std::string  SSD::Read(uint32_t address)
 
 	if (!find_nand_flag)					// nand.txt 에서 값이 없을 떄 0x0000000 리턴 
 	{
-		temp_file << "0x00000000" << '\n';
+		temp_file << address << " " << "0x00000000" << '\n';
 	}
 	else if (!found_result_flag)
 	{
@@ -115,15 +116,30 @@ std::string  SSD::Read(uint32_t address)
 }
 
 void SSD::fullRead() {
-	std::vector<std::string> fline;
+	std::string fline;
+
+	std::ofstream clear_file("result.txt", std::ofstream::trunc);
+	clear_file.close();
 
 	for (uint32_t i = 0; i <= 99; i++) {
 		Read(i);
-		fline.push_back(Read(i));
 	}
 
-	for (const auto& entry : fline) {
-		std::cout << entry << std::endl;
+
+	result_file.open("result.txt");
+
+	if (!result_file.is_open()) {
+		std::cerr << "File not found or File size error" << std::endl;
+		return;
+	}
+
+
+	while (std::getline(result_file, fline)) {
+		std::cout << fline << std::endl;
+	}
+
+	if (result_file.is_open()) {
+		result_file.close();
 	}
 }
 
