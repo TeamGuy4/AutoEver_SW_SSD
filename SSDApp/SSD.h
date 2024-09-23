@@ -10,4 +10,5 @@ private:
 public:
 	void Write(uint32_t address, std::string value);
 	std::string Read(uint32_t address);
+	void fullRead();
 };

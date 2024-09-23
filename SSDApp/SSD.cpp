@@ -114,3 +114,35 @@ std::string  SSD::Read(uint32_t address)
 	else return nand_value;
 }
 
+void SSD::fullRead() {
+	std::string fline;
+
+	result_file.open("result.txt");
+	if (!result_file) {
+		std::cout << "file error!" << std::endl;
+		return;
+	}
+
+	result_file.clear();
+	result_file.seekg(0, std::ios::beg);
+
+	result_file.seekg(0, std::ios::end);
+	std::streampos fSize = result_file.tellg();
+
+	if (fSize <= 0) {
+		std::cout << "Fill is empty or File Size Error" << std::endl;
+		return;
+	}
+
+	fline.clear();
+	fline.resize(fSize);
+	result_file.seekg(0, std::ios::beg);
+
+	result_file.read(&fline[0], fSize);
+	std::cout << fline << std::endl;
+
+	if (result_file.is_open()) {
+		result_file.close();
+	}
+}
+

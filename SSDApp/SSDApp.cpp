@@ -18,6 +18,7 @@
 #include <iostream>
 #include <cctype>
 #include "SSD.h"
+
 bool isHexadecimal(const std::string& input) {
     // 입력 문자열이 빈 문자열인지 검사
     if (input.empty()) return false;
@@ -47,6 +48,7 @@ int main() {
 	std::string s, s_LBA, h;
 	int LBA;
 	SSD a_ssd;
+
 	while (1) {
 		s = "";
 		h = "";
@@ -89,6 +91,32 @@ int main() {
 				a_ssd.Write(i, h);
 			}
 			
+		}
+
+		if (s == "read") {
+			uint32_t address;
+
+			std::cout << "출력할 LBA 값 입력: ";
+			std::cin >> address;
+			try {
+				LBA = address;
+			}
+			catch (std::invalid_argument&) {
+				std::cout << "LBA 형식이 잘못됐습니다." << std::endl;
+				continue;
+			}
+			if (isLBA(LBA) == 0) {
+				std::cout << "LBA범위 오류" << std::endl;
+				continue;
+			}
+
+			std::string rLine = a_ssd.Read(address);
+			std::cout << rLine << std::endl;
+
+		}
+
+		if (s == "fullread") {
+			a_ssd.fullRead();
 		}
 
 		if (s == "help") {
